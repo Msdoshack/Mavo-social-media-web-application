@@ -1,0 +1,191 @@
+@import "../../style.scss";
+
+.profile {
+  @include themify($themes) {
+    background-color: themed("bgSoft");
+    min-height: 100vh;
+    position: relative;
+
+    .images {
+      width: 100%;
+      height: 300px;
+      position: relative;
+      .cover {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .profilePic {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: auto;
+        top: 200px;
+        z-index: 1;
+      }
+    }
+    .profilecontainer {
+      @include mobile {
+        padding: 10px;
+      }
+      @include tablet {
+        padding: 20px;
+      }
+
+      padding: 20px 70px;
+      .uinfo {
+        position: relative;
+        max-height: 180px;
+        -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+        -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+        box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+        border-radius: 20px;
+        background-color: themed("bg");
+        color: themed("textColor");
+        padding: 65px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+
+        .left {
+          width: 100%;
+          display: flex;
+          gap: 10px;
+
+          @include mobile {
+            display: flex;
+            flex-direction: column;
+          }
+
+          a {
+            font-size: 1rem;
+          }
+
+          @include tablet {
+            flex-wrap: wrap;
+          }
+
+          a {
+            color: themed("textColorSoft");
+          }
+        }
+        .center {
+          flex: 1;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 3px;
+          justify-content: center;
+          margin-top: 15%;
+
+          @include mobile {
+            margin-top: 20%;
+          }
+
+          .user-name {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 0;
+            border-bottom: 1px solid themed(border);
+            h3 {
+              color: #5271ff;
+              font-size: 1.5rem;
+            }
+            span {
+              display: inline-block;
+              font-size: 1rem;
+              font-weight: lighter;
+              color: themed(textColorSoft);
+            }
+            .sex {
+              color: gray;
+            }
+          }
+          .bio {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            border-bottom: 1px solid themed(border);
+
+            p {
+              margin-bottom: 0.3em;
+            }
+          }
+
+          .follows-wrapper {
+            display: flex;
+            gap: 10px;
+            font-size: 1rem;
+            border-bottom: 1px solid themed(border);
+            color: themed(textColorSoft);
+            font-weight: 200;
+            .followers {
+              display: flex;
+              gap: 5px;
+              margin-bottom: 0.3em;
+
+              span {
+                font-size: 1rem;
+                cursor: pointer;
+              }
+            }
+
+            .following {
+              display: flex;
+              gap: 5px;
+              span {
+                font-size: 1rem;
+                cursor: pointer;
+              }
+            }
+          }
+          .info {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: space-around;
+            .item {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-left: 10px;
+              .follow {
+                font-size: 1rem;
+              }
+              color: themed("textColorSoft");
+              span {
+                font-size: 12px;
+              }
+            }
+          }
+          button {
+            border: none;
+            padding: 0.4em;
+            color: white;
+            cursor: pointer;
+            background-color: #5271ff;
+            color: white;
+            position: absolute;
+            right: 7%;
+            top: 35%;
+          }
+        }
+        .right {
+          // flex: 1;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          gap: 10;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,124 @@
+@import "../../../style.scss";
+
+.singleStoryContainer {
+  @include themify($themes) {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 71px);
+    overflow: hidden;
+    align-items: center;
+    background-color: rgba($color: #0000, $alpha: 1);
+    @include mobile {
+      margin: 0 auto;
+      height: calc(100vh - 71px);
+      overflow-y: hidden;
+    }
+
+    .slideContainer {
+      display: flex;
+      width: 95%;
+
+      .slide {
+        position: relative;
+        height: 3px;
+        width: 100%;
+        background-color: gray;
+        border: 1px solid;
+        margin-top: 5px;
+        cursor: pointer;
+        .slider {
+          position: absolute;
+          height: 100%;
+        }
+        .slider.active {
+          background-color: white;
+        }
+      }
+    }
+    .infoContainer {
+      color: white;
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+
+      .userInfo {
+        display: flex;
+        flex-direction: row-reverse;
+        padding: 10px;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        margin-bottom: 10px;
+
+        span {
+          color: rgba(255, 255, 255, 0.7);
+          font-size: 16px;
+        }
+
+        .username {
+          font-size: 16px;
+          cursor: pointer;
+
+          // color: rgba($color: #ffffff, $alpha: 0.6);
+        }
+        .profilePicture {
+          img {
+            border-radius: 50%;
+            object-fit: cover;
+          }
+        }
+      }
+      .icon {
+        margin-right: 3px;
+      }
+    }
+
+    .imageContainer {
+      color: inherit;
+      width: 55%;
+      max-height: 480px;
+
+      @include tablet {
+        width: 70%;
+        height: 70%;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .footer {
+      margin-top: 10px;
+      text-align: center;
+      color: white;
+      cursor: pointer;
+
+      @include mobile {
+        margin-top: 20px;
+      }
+
+      .views {
+        margin-bottom: 5px;
+      }
+      .arrow {
+        font-size: 35px;
+      }
+    }
+  }
+}
+
+#play-animation {
+  animation: progress-animation 5s forwards;
+}
+
+@keyframes progress-animation {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}

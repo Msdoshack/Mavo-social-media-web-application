@@ -1,0 +1,245 @@
+@import "../../style.scss";
+.stories {
+  @include themify($themes) {
+    display: flex;
+    gap: 10px;
+    height: 250px;
+    margin-bottom: 30px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    scrollbar-width: none;
+
+    @include mobile {
+      height: 100px !important;
+      // background-color: red;
+      align-items: center;
+    }
+
+    @include tablet {
+      height: 150px;
+
+      gap: 10px;
+    }
+
+    .uploadStory {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      height: 250px;
+      // background-color: themed("bgSoft");
+      background-color: black;
+      opacity: 0.9;
+      width: 250px;
+      position: absolute;
+      left: 250px;
+      z-index: 999;
+      padding: 10px;
+
+      @include mobile {
+        left: 30%;
+        top: 9%;
+        padding: 30px;
+        height: 200px;
+        width: 200px;
+      }
+
+      img {
+        height: 200px;
+        object-fit: cover;
+      }
+      span {
+        color: red;
+        position: absolute;
+        top: 0;
+        right: 10px;
+        font-weight: bold;
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      button {
+        // width: 70px;
+        border: none;
+        padding: 5px;
+        color: white;
+        cursor: pointer;
+        background-color: #5271ff;
+        border-radius: 3px;
+      }
+    }
+    .story {
+      flex: 0 0 auto;
+      max-width: 150px;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+
+      @include mobile {
+        flex: none;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .footerEl {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // flex-direction: column;
+
+        .username {
+          position: absolute;
+          bottom: 0px;
+          left: 5px;
+          color: white;
+          font-size: 18px;
+
+          @include mobile {
+            display: none;
+          }
+        }
+
+        .icon {
+          position: absolute;
+          bottom: 0px;
+          right: 0;
+          color: inherit;
+          font-size: 20px;
+          font-weight: bold;
+        }
+        .openMenu {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          position: absolute;
+          bottom: 0px;
+          right: 0;
+          width: 25px;
+          background-color: themed("bgSoft");
+        }
+        .deleteIcon {
+          font-size: 16px;
+        }
+        .deleteIcon:hover {
+          color: red;
+          z-index: 1;
+        }
+        button {
+          border: none;
+          background-color: inherit;
+          color: inherit;
+          font-size: 16px;
+          font-weight: 500;
+        }
+        button:hover {
+          color: #5271ff;
+        }
+      }
+      .addStoryIcon {
+        position: absolute;
+        bottom: 40px;
+        left: 10px;
+        border: none;
+        border-radius: 50%;
+        background-color: #5271ff;
+        width: 30px;
+        height: 30px;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        @include mobile {
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          margin: auto;
+          width: 20px;
+          height: 20px;
+          padding: 3px;
+        }
+      }
+    }
+
+    .userStory {
+      flex: 1 0 auto;
+      max-width: 300px;
+      border-radius: 10px;
+      // overflow: hidden;
+      position: relative;
+
+      @include mobile {
+        flex: none;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      span {
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+        color: white;
+        font-weight: 500;
+        @include mobile {
+          display: none;
+        }
+      }
+      .addStoryIcon {
+        position: absolute;
+        bottom: 40px;
+        left: 10px;
+        border: none;
+        border-radius: 50%;
+        background-color: #5271ff;
+        width: 30px;
+        height: 30px;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        @include mobile {
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          margin: auto;
+        }
+      }
+    }
+    .noStory {
+      display: flex;
+      justify-items: center;
+      align-items: center;
+      margin: 0 auto;
+
+      font-weight: bold;
+      font-size: 20px;
+    }
+  }
+}
+
+.stories::-webkit-scrollbar {
+  display: none;
+}

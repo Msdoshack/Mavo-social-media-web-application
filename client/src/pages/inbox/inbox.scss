@@ -1,0 +1,87 @@
+@import "../../style.scss";
+
+.inbox-container {
+  @include themify($themes) {
+    position: absolute;
+    top: 71px;
+    left: 0;
+    z-index: 800;
+    height: calc(100vh - 71px);
+    display: flex;
+    width: calc(100vw - 355px);
+    overflow: hidden;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    background-color: themed(bgSoft);
+    color: themed(textColor);
+
+    @include tablet {
+      width: 100%;
+    }
+
+    .chat-menu {
+      width: 50%;
+
+      @include mobile {
+        display: none;
+      }
+
+      .chat-menu-wrapper {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        input {
+          width: 85%;
+          border: none;
+          margin: 10px 0px;
+          padding: 10px;
+          border-bottom: 2px solid themed(border);
+          background-color: transparent;
+          color: themed(textColor);
+        }
+      }
+    }
+
+    .chats {
+      width: 75%;
+      overflow-y: scroll;
+
+      .chats::-webkit-scrollbar {
+        display: none;
+      }
+
+      @include mobile {
+        width: 100vw;
+      }
+      .heading {
+        height: 50px;
+        background-color: themed(inboxHeader);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        p {
+          font-family: Georgia, "Times New Roman", Times, serif;
+          font-size: 2rem;
+          // word-spacing: 2em;
+        }
+      }
+
+      @include mobile {
+        width: 100%;
+      }
+      .chats-wrapper {
+        height: 100%;
+
+        a {
+          text-decoration: none;
+          color: inherit;
+        }
+      }
+    }
+  }
+}

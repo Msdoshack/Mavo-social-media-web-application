@@ -1,0 +1,70 @@
+.update {
+  position: fixed;
+  top: 0;
+  left: 0;
+  // height: calc(100vh - 70px);
+  height: 100%;
+  overflow: scroll;
+  background: rgba($color: #000000, $alpha: 0.9);
+  padding: 0 20px;
+  z-index: 999;
+  min-width: 60%;
+
+  span {
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 30px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+  button {
+    color: white;
+    background-color: orangered;
+    border: none;
+    padding: 0.5em 0.5em;
+    font-size: 1rem;
+
+    position: sticky;
+    top: 0;
+    left: 0;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    align-items: center;
+
+    div {
+      color: white;
+    }
+    label {
+      color: white;
+      font-size: 20px;
+    }
+
+    input {
+      margin-bottom: 20px;
+      height: 35px;
+      width: 300px;
+      font-size: 16px;
+
+      button {
+        margin-bottom: 20px;
+      }
+    }
+    select {
+      margin-bottom: 10px;
+      width: 300px;
+      height: 35px;
+      font-size: 1rem;
+    }
+    textarea {
+      width: 250px;
+      padding: 20px;
+      margin-bottom: 20px;
+      font-size: 1rem;
+    }
+  }
+}
