@@ -1,4 +1,3 @@
-import Conversation from "../components/conversation/Conversation";
 import { baseUrl } from "./axios";
 
 export const getLikes = (postId) => {
@@ -161,15 +160,15 @@ export const updateProfilePicture = (updatedInfo) => {
     .catch((err) => err.message);
 };
 
-export const getMyFollowers = () => {
+export const getMyFollowers = (id) => {
   return baseUrl
-    .get("/users/followers")
+    .get("/users/followers?id=" + id)
     .then((res) => res.data)
     .catch((err) => err.message);
 };
-export const getIamFollowing = () => {
+export const getIamFollowing = (id) => {
   return baseUrl
-    .get("/users/following")
+    .get("/users/following?id=" + id)
     .then((res) => res.data)
     .catch((err) => err.message);
 };

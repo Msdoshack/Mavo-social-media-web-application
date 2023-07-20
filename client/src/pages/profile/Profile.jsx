@@ -17,7 +17,7 @@ import {
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Post from "../../components/post/Post";
 import Update from "../../components/update/Update";
 import Share from "../../components/share/Share";
@@ -52,12 +52,12 @@ function Profile() {
 
   const { isLoading: myFollowersLoading, data: myFollowers } = useQuery({
     queryKey: ["followers"],
-    queryFn: getMyFollowers,
+    queryFn: () => getMyFollowers(user_id),
   });
 
   const { isLoading: iamFollowingLoading, data: iamFollowing } = useQuery({
     queryKey: ["following"],
-    queryFn: getIamFollowing,
+    queryFn: () => getIamFollowing(user_id),
   });
 
   const { isLoading, data } = useQuery({
@@ -127,22 +127,37 @@ function Profile() {
   ) : (
     <div className="profile">
       <div className="images">
-        <img
-          src={
+        <a
+          href={
             data.cover_picture === null
               ? background
               : `/upload/${data.cover_picture}`
           }
-          alt=""
-          className="cover"
-        />
-        <img
-          src={
+        >
+          <img
+            src={
+              data.cover_picture === null
+                ? background
+                : `/upload/${data.cover_picture}`
+            }
+            alt=""
+            className="cover"
+          />
+        </a>
+
+        <a
+          href={
             data.profile_picture ? `/upload/${data.profile_picture}` : avatar2
           }
-          alt="profile"
-          className="profilePic"
-        />
+        >
+          <img
+            src={
+              data.profile_picture ? `/upload/${data.profile_picture}` : avatar2
+            }
+            alt="profile"
+            className="profilePic"
+          />
+        </a>
         {currentUser.id === data.id && <ChangeProfilePics />}
       </div>
       <div className="profilecontainer">

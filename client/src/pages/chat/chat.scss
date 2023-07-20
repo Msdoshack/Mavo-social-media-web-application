@@ -9,15 +9,20 @@
     height: calc(100vh - 71px);
     display: flex;
     width: calc(100vw - 355px);
-
-    @include tablet {
-      width: 100%;
-    }
-
-    // width: 100%;
-
     background-color: themed(bg);
     color: themed(textColor);
+
+    @include tablet {
+      top: 71px;
+
+      height: calc(100vh - 71px);
+      width: 100%;
+    }
+    @include mobile {
+      top: 120px;
+      height: calc(100vh - 121px);
+      width: 100%;
+    }
 
     .chat-menu {
       flex: 3;
@@ -45,6 +50,7 @@
     .chats {
       flex: 9;
       background-color: themed(bgSoft);
+      position: relative;
 
       .chats-wrapper {
         height: 100%;
@@ -53,12 +59,46 @@
           max-height: 70%;
           overflow-y: scroll;
 
-          @include mobile {
-            min-height: 80%;
+          @include tablet {
+            max-height: 85%;
           }
-        }
-        .chats-top::-webkit-scrollbar {
-          display: none;
+          @include mobile {
+            max-height: 75%;
+          }
+
+          .chat-mate {
+            position: sticky;
+            top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 20px;
+            background-color: themed("bgSoft");
+            color: themed("textColor");
+            border-bottom: 2px solid themed("border");
+            margin-bottom: 10px;
+
+            @include tablet {
+              height: 40px;
+            }
+
+            .chat-mate-details {
+              display: flex;
+              align-items: center;
+              gap: 20px;
+
+              img {
+                height: 30px;
+                width: 30px;
+                object-fit: cover;
+                border-radius: 50%;
+              }
+              span {
+                font-size: 21px;
+                font-weight: bold;
+              }
+            }
+          }
         }
 
         .chats-bottom {
@@ -68,17 +108,39 @@
           justify-content: center;
           margin-top: 50px;
 
+          @include tablet {
+            position: absolute;
+            bottom: 0;
+            // padding-bottom: 5px;
+            width: 100%;
+            // min-height: 25%;
+          }
           @include mobile {
             position: absolute;
             bottom: 0;
-            padding-bottom: 5px;
+            // padding-bottom: 5px;
             width: 100%;
+            min-height: 25%;
           }
 
           .chat-input {
-            width: 70%;
+            // width: 70%;
             height: 100px;
             font-size: 1rem;
+
+            @include tablet {
+              // height: 150px;
+              padding: 20px;
+              font-size: 20px;
+              padding: 20px;
+            }
+            @include mobile {
+              flex: 1;
+              margin-left: 10px;
+              // height: 120px;
+              border-radius: 5px;
+              font-size: 18px;
+            }
           }
 
           button {
@@ -89,9 +151,18 @@
             width: 70px;
             height: 40px;
             border-radius: 5px;
+
+            @include mobile {
+              margin-right: 5px;
+              font-size: 18px;
+              padding: 10px;
+            }
           }
         }
       }
     }
   }
+}
+.chats-top::-webkit-scrollbar {
+  display: none;
 }

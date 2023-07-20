@@ -63,24 +63,12 @@ function Register() {
   return (
     <div className="register">
       <div className="card">
-        <div className="left">
-          <h1>Mavo</h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem
-            molestias reprehenderit quidem adipisci libero pariatur repellat
-            optio?
-          </p>
-          <span>Already have an account?</span>
-          <Link to="/login">
-            <button>Login</button>
-          </Link>
-        </div>
         <div className="right">
           <h1>Register</h1>
-
           <form autoComplete="off" onSubmit={handleRegister}>
             <label htmlFor="firstName">First Name</label>
             <input
+              required
               autoComplete="off"
               type="text"
               placeholder="First name"
@@ -194,7 +182,8 @@ function Register() {
             />
 
             <label htmlFor="bio">Bio</label>
-            <textarea
+            <input
+              type="text"
               placeholder="write a short description about yourself"
               id="bio"
               name="bio"
@@ -202,6 +191,10 @@ function Register() {
               onChange={handleChange}
             />
             <button type="submit">Register</button>
+
+            <p className="login-redirect">
+              Already have an account? <Link to="/login">Login</Link>
+            </p>
             <p
               style={{
                 backgroundColor: "red",
@@ -212,6 +205,18 @@ function Register() {
               {err}
             </p>
           </form>
+        </div>
+        <div className="left">
+          <h1>Mavo</h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem
+            molestias reprehenderit quidem adipisci libero pariatur repellat
+            optio?
+          </p>
+          <span>Already have an account?</span>
+          <Link to="/login">
+            <button>Login</button>
+          </Link>
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@ function Leftbar() {
   return (
     <div className="leftbar">
       <div className="container">
+        <h4 className="heading">Your shortcuts</h4>
         <div className="menu">
           <Link
             to={`profile/${currentUser.id}`}
@@ -56,7 +57,7 @@ function Leftbar() {
           </div>
         </div>
         <hr />
-        <div className="menu">
+        {/* <div className="menu">
           <span>Your shortcuts</span>
           <div className="item">
             <img src={friends} alt="" />
@@ -78,8 +79,8 @@ function Leftbar() {
             <img src={memories} alt="" />
             <span>Memories</span>
           </div>
-        </div>
-        <hr />
+        </div> */}
+        {/* <hr />
         <div className="menu">
           <span>Others</span>
           <div className="item">
@@ -102,7 +103,7 @@ function Leftbar() {
             <img src={memories} alt="" />
             <span>Memories</span>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

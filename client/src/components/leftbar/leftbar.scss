@@ -23,6 +23,10 @@
       display: none;
     }
     .container {
+      .heading {
+        display: inline-block;
+        margin-bottom: 10px;
+      }
       hr {
         margin: 20px 0px;
         border: none;

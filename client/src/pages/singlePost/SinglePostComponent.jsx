@@ -133,7 +133,6 @@ function SinglePostComponent({ post }) {
             </div>
           </div>
         </div>
-
         <Comments post_id={post.id} />
       </div>
     </div>

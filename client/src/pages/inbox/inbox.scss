@@ -6,17 +6,19 @@
     top: 71px;
     left: 0;
     z-index: 800;
-    height: calc(100vh - 71px);
+    min-height: calc(100vh - 71px);
     display: flex;
     width: calc(100vw - 355px);
     overflow: hidden;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-
+    color: themed(textColorSoft);
     background-color: themed(bgSoft);
-    color: themed(textColor);
+    box-sizing: border-box;
+
+    @include mobile {
+      top: 121px;
+      min-height: calc(100vw - 121px);
+      background-color: themed(bgSoft);
+    }
 
     @include tablet {
       width: 100%;
@@ -33,6 +35,7 @@
         display: flex;
         flex-direction: column;
         height: 100%;
+        background-color: themed("bg");
 
         input {
           width: 85%;
@@ -47,7 +50,10 @@
     }
 
     .chats {
-      width: 75%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       overflow-y: scroll;
 
       .chats::-webkit-scrollbar {
@@ -55,27 +61,41 @@
       }
 
       @include mobile {
-        width: 100vw;
+        width: 100%;
       }
       .heading {
         height: 50px;
-        background-color: themed(inboxHeader);
+        background-color: themed("bg");
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
+        border-bottom: 1px solid themed("border");
+
+        @include mobile {
+          background-color: themed("bgSoft");
+          color: themed("textColorSoft");
+        }
         p {
           font-family: Georgia, "Times New Roman", Times, serif;
           font-size: 2rem;
           // word-spacing: 2em;
+
+          @include mobile {
+            font-size: 25px;
+            line-height: 25px;
+          }
         }
       }
 
-      @include mobile {
-        width: 100%;
-      }
+      // @include mobile {
+      //   width: 100%;
+      // }
       .chats-wrapper {
         height: 100%;
+
+        @include mobile {
+          min-height: calc(100vh - 170px);
+        }
 
         a {
           text-decoration: none;
@@ -84,4 +104,8 @@
       }
     }
   }
+}
+
+.chats::-webkit-scrollbar {
+  display: none;
 }

@@ -1,20 +1,16 @@
 import React from "react";
 import "./inbox.scss";
 import Conversation from "../../components/conversation/Conversation";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ChatList from "../../components/chatList/ChatList";
 import { useQuery } from "@tanstack/react-query";
 import { getInbox } from "../../config/api";
 
 const Inbox = () => {
-  const userId = useLocation().pathname.split("/")[2];
-
   const { data, isLoading } = useQuery({
     queryKey: ["inbox"],
     queryFn: () => getInbox(),
   });
-
-  console.log(data);
 
   if (isLoading) return "loading";
   return (

@@ -18,7 +18,7 @@ const ChangeProfilePics = () => {
 
   const user_id = parseInt(useLocation().pathname.split("/")[2]);
 
-  const { isLoading, data } = useQuery({
+  const { data } = useQuery({
     queryKey: ["user", user_id],
     queryFn: () => getSingleUser(user_id),
   });

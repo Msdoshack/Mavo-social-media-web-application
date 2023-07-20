@@ -1,34 +1,34 @@
 import "./login.scss";
 import { Link } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const [err, setErr] = useState("");
+
   const [input, setInput] = useState({
     user: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const { login, err } = useContext(AuthContext);
-
-  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      login(input);
+      await login(input);
       navigate("/");
     } catch (error) {
-      console.log(error);
+      setErr(error.response.data);
     }
   };
 
-  useEffect(() => {}, [input]);
   return (
     <div className="login">
       <div className="card">
@@ -48,19 +48,24 @@ const Login = () => {
           <h1>Login</h1>
           <form>
             <input
+              required
               type="text"
               placeholder="username"
               name="user"
               onChange={handleChange}
             />
             <input
+              required
               type="password"
               placeholder="password"
               name="password"
               onChange={handleChange}
             />
             <button onClick={handleLogin}>Login</button>
-            <p style={{ backgroundColor: "lightgray", color: "red" }}>{err}</p>
+            <p style={{ color: "red" }}>{err}</p>
+            <p className="register-redirect">
+              Don't have an account? <Link to="/register">Register</Link>
+            </p>
           </form>
         </div>
       </div>

@@ -21,7 +21,7 @@ function Rightbar() {
 
   const { isLoading: iamFollowingLoading, data: iamFollowing } = useQuery({
     queryKey: ["following"],
-    queryFn: getIamFollowing,
+    queryFn: () => getIamFollowing(currentUser.id),
   });
 
   const { isLoading, data } = useQuery({

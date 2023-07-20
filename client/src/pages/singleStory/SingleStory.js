@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import SingleStoryComponent from "../../components/stories/singleStory/SingleStory";
-import { getStories, getStory } from "../../config/api";
+import { getStory } from "../../config/api";
 import { useLocation } from "react-router-dom";
 
 const SingleStory = () => {

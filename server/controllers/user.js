@@ -54,7 +54,7 @@ const iamFollowing = (req, res) => {
     const q =
       "select users.id as user_id, relationships.id as id,username,bio,sex,profile_picture, follower_user_id from users left join relationships on(users.id = relationships.followed_user_id) where relationships.follower_user_id= ? ORDER BY relationships.created_at DESC ";
 
-    db.query(q, data.id, (err, data) => {
+    db.query(q, req.query.id, (err, data) => {
       if (err) return res.status(500).send(err);
 
       res.status(200).send(data);
@@ -68,10 +68,10 @@ const myFollowers = (req, res) => {
 
   jwt.verify(token, "secret", (err, data) => {
     if (err) return res.status(403).send(err);
-
+    console.log(req.body);
     const q =
       "select users.id as user_id, relationships.id as id,username,sex,bio, profile_picture, followed_user_id from users left join relationships on(users.id = relationships.follower_user_id) where relationships.followed_user_id= ? ORDER BY relationships.created_at DESC";
-    db.query(q, data.id, (err, data) => {
+    db.query(q, req.query.id, (err, data) => {
       if (err) return res.status(500).send(err);
 
       res.send(data);

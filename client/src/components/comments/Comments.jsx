@@ -31,14 +31,12 @@ function Comments({ post_id }) {
   });
 
   const comment_id = parseInt(data?.map((comment) => comment.id));
-  // console.log(commentData);
 
   const { data: commentlikes } = useQuery({
     queryKey: ["commentlikes", comment_id],
     queryFn: () => getCommentLikes(comment_id),
   });
 
-  // console.log(commentlikes);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
