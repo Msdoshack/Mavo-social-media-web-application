@@ -28,29 +28,12 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom";
+import PersistLogin from "./components/persistLogin";
+import Layout from "./components/Layout";
 
 function App() {
-  const { darkMode } = useContext(darkModeContext);
   const { currentUser } = useContext(AuthContext);
   const queryClient = new QueryClient();
-
-  const Layout = () => {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <div className={`theme-${darkMode ? "dark" : "light"}`}>
-          <Navbar />
-          <div style={{ display: "flex" }}>
-            <Leftbar />
-            <div style={{ flex: 6 }}>
-              <Outlet />
-            </div>
-            <Rightbar />
-          </div>
-        </div>
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    );
-  };
 
   const ProtectedRoute = ({ children }) => {
     if (!currentUser?.id) {
@@ -63,9 +46,14 @@ function App() {
     {
       path: "/",
       element: (
-        <ProtectedRoute>
-          <Layout />
-        </ProtectedRoute>
+        // <QueryClientProvider client={queryClient}>
+        <PersistLogin children={Layout}>
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        </PersistLogin>
+
+        // </QueryClientProvider>
       ),
       children: [
         {
@@ -103,7 +91,9 @@ function App() {
 
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </div>
   );
 }

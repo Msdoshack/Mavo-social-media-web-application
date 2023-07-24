@@ -5,13 +5,18 @@ const app = express();
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
+const corsOptions = require("./config/corsOptions");
+const credentials = require("./middleware/credentials");
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Expose-Headers", true);
   next();
 });
 
+// app.use(credentials);
 app.use(cors({ origin: "http://localhost:3000" }));
+// app.use(cors(corsOptions));
 
 const server = http.createServer(app);
 
@@ -35,7 +40,7 @@ const cookieParser = require("cookie-parser");
 const multer = require("multer");
 
 const PORT = process.env.PORT || 3700;
-
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -54,7 +59,12 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
   res.status(200).json(file.filename);
 });
 
-app.use("/auth", auth);
+app.use("/api/auth", auth);
+
+app.use("/api/refreshtoken", require("./routes/refreshtoken"));
+
+app.use(require("./middleware/VerifyJwt"));
+
 app.use("/api/likes", likes);
 app.use("/api/posts", posts);
 app.use("/api/post", singlePost);

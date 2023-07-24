@@ -1,11 +1,21 @@
 import "./login.scss";
-import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+
+import axios from "axios";
+import { Link, useLocation } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import { baseUrl, baseUrlPrivate } from "../../config/axios";
 
 const Login = () => {
+  const { currentUser, setCurrentUser } = useAuth();
+  const [user, setUser] = useState();
+  const [password, setPassword] = useState();
+
   const [err, setErr] = useState("");
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const [input, setInput] = useState({
     user: "",
@@ -13,19 +23,32 @@ const Login = () => {
   });
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
-  };
-
-  const { login } = useContext(AuthContext);
+  // const handleChange = (e) => {
+  //   setInput({ ...input, [e.target.name]: e.target.value });
+  // };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await login(input);
-      navigate("/");
-    } catch (error) {
-      setErr(error.response.data);
+      const response = await baseUrlPrivate.post(
+        "http://localhost:3700/api/auth/login",
+        JSON.stringify({ user, password }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${currentUser?.accessToken}`,
+          },
+          withCredentials: true,
+        }
+      );
+
+      setCurrentUser(response?.data);
+      navigate(from, { replace: true });
+    } catch (err) {
+      if (!err?.response) {
+        setErr("No server response");
+      }
+      setErr(err.response.data);
     }
   };
 
@@ -52,14 +75,14 @@ const Login = () => {
               type="text"
               placeholder="username"
               name="user"
-              onChange={handleChange}
+              onChange={(e) => setUser(e.target.value)}
             />
             <input
               required
               type="password"
               placeholder="password"
               name="password"
-              onChange={handleChange}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <button onClick={handleLogin}>Login</button>
             <p style={{ color: "red" }}>{err}</p>

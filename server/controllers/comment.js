@@ -1,6 +1,5 @@
 const db = require("../config/connect");
 const moment = require("moment");
-const jwt = require("jsonwebtoken");
 
 const getComments = (req, res) => {
   const q =
@@ -14,49 +13,42 @@ const getComments = (req, res) => {
 };
 
 const postComment = (req, res) => {
-  const token = req.cookies.jwt;
+  const user = req.user;
 
-  if (!token) {
+  if (!user) {
     return res.status(401).send("Not logged in");
   }
-  jwt.verify(token, "secret", (err, data) => {
-    if (err) return res.sendStatus(403);
 
-    const q =
-      "INSERT INTO comments(description,user_id,post_id,created_at) VALUES (?)";
+  const q =
+    "INSERT INTO comments(description,user_id,post_id,created_at) VALUES (?)";
 
-    const values = [
-      req.body.description,
-      data.id,
-      req.body.post_id,
-      moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
-    ];
+  const values = [
+    req.body.description,
+    user,
+    req.body.post_id,
+    moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+  ];
 
-    db.query(q, [values], (err, data) => {
-      if (err) {
-        // console.log(err);
-        return res.status(500).json(err);
-      }
+  db.query(q, [values], (err, data) => {
+    if (err) {
+      return res.status(500).json(err);
+    }
 
-      res.status(201).send("comment has been created");
-    });
+    res.status(201).send("comment has been created");
   });
 };
 
 const delComment = (req, res) => {
-  const token = req.cookies.jwt;
-  if (!token) return res.sendStatus(401);
+  const user = req.user;
 
-  jwt.verify(token, "secret", (err, data) => {
-    if (err) return res.status(403).send(err);
+  if (!user) return res.sendStatus(401);
 
-    const q = "DELETE FROM comments WHERE user_id =? AND comments.id =?";
+  const q = "DELETE FROM comments WHERE user_id =? AND comments.id =?";
 
-    db.query(q, [data.id, req.query.comment_id], (err) => {
-      if (err) return res.status(500).send(err);
+  db.query(q, [user, req.query.comment_id], (err) => {
+    if (err) return res.status(500).send(err);
 
-      res.sendStatus(200);
-    });
+    res.sendStatus(200);
   });
 };
 

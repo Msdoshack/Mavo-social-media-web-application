@@ -1,5 +1,4 @@
 const db = require("../config/connect");
-const jwt = require("jsonwebtoken");
 
 const getAllUsers = (req, res) => {
   const q = "SELECT id,sex,profile_picture FROM users";
@@ -12,19 +11,16 @@ const getAllUsers = (req, res) => {
 };
 
 const getSuggestedUser = (req, res) => {
-  const token = req.cookies.jwt;
-  if (!token) return res.status(401).send("not authorized");
+  const user = req.user;
 
-  jwt.verify(token, "secret", (err, user) => {
-    if (err) return sendStatus(403);
+  if (!user) return res.status(403).send("not authorized");
 
-    const q = `select users.id, users.username,profile_picture,sex from users where users.id NOT IN(select relationships.followed_user_id from relationships where relationships.follower_user_id =?) and users.country = "Nigeria" and users.id != ?`;
+  const q = `select users.id, users.username,profile_picture,sex from users where users.id NOT IN(select relationships.followed_user_id from relationships where relationships.follower_user_id =?) and users.country = "Nigeria" and users.id != ?`;
 
-    db.query(q, [user.id, user.id], (err, data) => {
-      if (err) return res.status(500).send(err);
+  db.query(q, [user, user], (err, data) => {
+    if (err) return res.status(500).send(err);
 
-      res.status(200).send(data);
-    });
+    res.status(200).send(data);
   });
 };
 
@@ -45,37 +41,31 @@ const getUser = (req, res) => {
 };
 
 const iamFollowing = (req, res) => {
-  const token = req.cookies.jwt;
-  if (!token) return res.sendStatus(401);
+  const user = req.user;
 
-  jwt.verify(token, "secret", (err, data) => {
-    if (err) res.sendStatus(403);
+  if (!user) return res.sendStatus(401);
 
-    const q =
-      "select users.id as user_id, relationships.id as id,username,bio,sex,profile_picture, follower_user_id from users left join relationships on(users.id = relationships.followed_user_id) where relationships.follower_user_id= ? ORDER BY relationships.created_at DESC ";
+  const q =
+    "select users.id as user_id, relationships.id as id,username,bio,sex,profile_picture, follower_user_id from users left join relationships on(users.id = relationships.followed_user_id) where relationships.follower_user_id= ? ORDER BY relationships.created_at DESC ";
 
-    db.query(q, req.query.id, (err, data) => {
-      if (err) return res.status(500).send(err);
+  db.query(q, req.query.id, (err, data) => {
+    if (err) return res.status(500).send(err);
 
-      res.status(200).send(data);
-    });
+    res.status(200).send(data);
   });
 };
 
 const myFollowers = (req, res) => {
-  const token = req.cookies.jwt;
-  if (!token) return res.sendStatus(401);
+  const user = req.user;
 
-  jwt.verify(token, "secret", (err, data) => {
-    if (err) return res.status(403).send(err);
-    console.log(req.body);
-    const q =
-      "select users.id as user_id, relationships.id as id,username,sex,bio, profile_picture, followed_user_id from users left join relationships on(users.id = relationships.follower_user_id) where relationships.followed_user_id= ? ORDER BY relationships.created_at DESC";
-    db.query(q, req.query.id, (err, data) => {
-      if (err) return res.status(500).send(err);
+  if (!user) return res.sendStatus(401);
 
-      res.send(data);
-    });
+  const q =
+    "select users.id as user_id, relationships.id as id,username,sex,bio, profile_picture, followed_user_id from users left join relationships on(users.id = relationships.follower_user_id) where relationships.followed_user_id= ? ORDER BY relationships.created_at DESC";
+  db.query(q, req.query.id, (err, data) => {
+    if (err) return res.status(500).send(err);
+
+    res.send(data);
   });
 };
 
