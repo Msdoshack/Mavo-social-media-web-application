@@ -2,6 +2,8 @@ const db = require("../config/connect");
 const moment = require("moment");
 
 const getComments = (req, res) => {
+  const { id } = req.user;
+  if (!id) res.sendStatus(401);
   const q =
     "SELECT comments.*,users.id as user_id,sex,username,profile_picture FROM comments JOIN users ON (users.id = comments.user_id) WHERE comments.post_id = ? ORDER BY comments.created_at DESC";
 
@@ -13,9 +15,9 @@ const getComments = (req, res) => {
 };
 
 const postComment = (req, res) => {
-  const user = req.user;
+  const { id } = req.user;
 
-  if (!user) {
+  if (!id) {
     return res.status(401).send("Not logged in");
   }
 
@@ -24,12 +26,12 @@ const postComment = (req, res) => {
 
   const values = [
     req.body.description,
-    user,
+    id,
     req.body.post_id,
     moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
   ];
 
-  db.query(q, [values], (err, data) => {
+  db.query(q, [values], (err) => {
     if (err) {
       return res.status(500).json(err);
     }
@@ -39,13 +41,13 @@ const postComment = (req, res) => {
 };
 
 const delComment = (req, res) => {
-  const user = req.user;
+  const { id } = req.user;
 
-  if (!user) return res.sendStatus(401);
+  if (!id) return res.sendStatus(401);
 
   const q = "DELETE FROM comments WHERE user_id =? AND comments.id =?";
 
-  db.query(q, [user, req.query.comment_id], (err) => {
+  db.query(q, [id, req.query.comment_id], (err) => {
     if (err) return res.status(500).send(err);
 
     res.sendStatus(200);

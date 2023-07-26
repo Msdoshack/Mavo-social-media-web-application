@@ -47,7 +47,6 @@ const Stories = () => {
   const { currentUser } = useContext(AuthContext);
 
   if (isLoading) return "Loading...";
-  if (error) return <div>{error.message}</div>;
 
   return (
     <div className="stories">

@@ -65,7 +65,6 @@ function SinglePostComponent({ post }) {
   });
 
   if (isLoading) return;
-  if (isError) return <div>{error}</div>;
 
   return (
     <div className="singlePosts">

@@ -97,7 +97,7 @@ const login = (req, res) => {
 
       if (match) {
         const refreshToken = jwt.sign(
-          { id: data[0].id },
+          { id: data[0].id, username: data[0].username },
           process.env.REFRESH_TOKEN,
           {
             expiresIn: "1d",
@@ -123,7 +123,7 @@ const login = (req, res) => {
           res.cookie("jwt", refreshToken, {
             httpOnly: true,
             samesite: "none",
-            maxAge: 24 * 60 * 60 * 1000,
+            maxAge: /* 24 * 60 *  */ 60 * 1000,
           });
 
           res.status(200).json({ ...others, accessToken });

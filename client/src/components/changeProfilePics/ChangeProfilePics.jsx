@@ -3,7 +3,7 @@ import "./changeprofilepics.scss";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import { baseUrl } from "../../config/axios";
+import { baseUrlPrivate } from "../../config/axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
@@ -22,22 +22,25 @@ const ChangeProfilePics = () => {
     queryKey: ["user", user_id],
     queryFn: () => getSingleUser(user_id),
   });
+
   const upload = async (file) => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const res = await baseUrl.post("/upload", formData);
+      const res = await baseUrlPrivate.post("/upload", formData);
       return res.data;
     } catch (error) {
       return error.message;
     }
   };
+
   const queryClient = useQueryClient();
 
   const profilePictureMutation = useMutation({
     mutationFn: (newInfo) => updateProfilePicture(newInfo),
     onSuccess: () => queryClient.invalidateQueries(["user", data.id]),
   });
+
   const coverPictureMutation = useMutation({
     mutationFn: (newInfo) => updateCoverPicture(newInfo),
     onSuccess: () => queryClient.invalidateQueries(["user", data.id]),
@@ -45,6 +48,7 @@ const ChangeProfilePics = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     let coverUrl;
     let profilePicUrl;
 

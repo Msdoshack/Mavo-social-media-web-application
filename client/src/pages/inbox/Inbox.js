@@ -1,13 +1,14 @@
 import React from "react";
 import "./inbox.scss";
 import Conversation from "../../components/conversation/Conversation";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ChatList from "../../components/chatList/ChatList";
 import { useQuery } from "@tanstack/react-query";
 import { getInbox } from "../../config/api";
 
 const Inbox = () => {
-  const { data, isLoading } = useQuery({
+  const navigate = useNavigate();
+  const { data, isLoading, error } = useQuery({
     queryKey: ["inbox"],
     queryFn: () => getInbox(),
   });

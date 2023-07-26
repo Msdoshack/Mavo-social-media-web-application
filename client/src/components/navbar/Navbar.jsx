@@ -21,6 +21,8 @@ import { AuthContext } from "../../context/AuthContext";
 
 import avatar2 from "../../assets/avatar2.PNG";
 
+import { logout } from "../../config/api";
+
 function Navbar() {
   const { toggle, darkMode } = useContext(darkModeContext);
   const { currentUser, setCurrentUser } = useContext(AuthContext);
@@ -28,8 +30,9 @@ function Navbar() {
 
   const navigate = useNavigate();
 
-  const logout = () => {
-    localStorage.clear("user");
+  const handleLogout = async () => {
+    await logout();
+
     setCurrentUser("");
 
     navigate("/login");
@@ -81,7 +84,7 @@ function Navbar() {
         </div>
 
         <div title="logout">
-          <PowerIcon className="power-icon" onClick={logout} />
+          <PowerIcon className="power-icon" onClick={handleLogout} />
         </div>
       </div>
       <div className="left-mobile">

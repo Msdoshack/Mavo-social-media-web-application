@@ -9,8 +9,8 @@ const useAxiosInterceptors = () => {
 
   useEffect(() => {
     const requestIntercept = baseUrlPrivate.interceptors.request.use(
-      function (config) {
-        if (!config.headers["Authorization"]) {
+      (config) => {
+        if (!config?.headers["Authorization"]) {
           config.headers[
             "Authorization"
           ] = `Bearer ${currentUser?.accessToken}`;
@@ -32,6 +32,7 @@ const useAxiosInterceptors = () => {
 
           return baseUrlPrivate(prevRequest);
         }
+
         return Promise.reject(error);
       }
     );

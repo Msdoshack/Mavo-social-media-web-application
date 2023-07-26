@@ -5,15 +5,13 @@ const fsSync = require("fs");
 const path = require("path");
 
 const createPost = (req, res) => {
-  const { description, image } = req.body;
-  if (!description && !image)
-    return res.status(401).json("cant submit blank field");
-  console.log(req.body);
-  const user = req.user;
+  const { id } = req.user;
 
-  if (!user) {
-    return res.status(401).send("Not logged in");
-  }
+  if (!id) return res.sendStatus(401);
+
+  const { description, image } = req.body;
+  if (!description || !image)
+    return res.status(400).json("cant submit blank field");
 
   const q =
     "INSERT INTO posts(description,image,user_id,created_at) VALUES (?)";
@@ -21,7 +19,7 @@ const createPost = (req, res) => {
   const values = [
     req.body.description,
     req.body.image,
-    user,
+    id,
     moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
   ];
 
@@ -30,24 +28,22 @@ const createPost = (req, res) => {
       return res.status(500).json(err);
     }
 
-    res.status(201).send("post have been created");
+    res.status(201).json("post have been created");
   });
 };
 
 const getPost = (req, res) => {
-  const user = req.user;
+  const { id } = req.user;
 
   const user_id = parseInt(req.query.user_id);
 
-  if (!user) {
-    return res.status(401).send("you are not logged in");
-  }
+  if (!id) return res.sendStatus(401);
 
   const q = user_id
     ? "SELECT posts.*,users.id as user_id,username,sex,profile_picture FROM posts JOIN users ON (users.id = posts.user_id) WHERE posts.user_id= ?  ORDER BY posts.created_at DESC"
     : "SELECT posts.*,users.id as user_id,sex,username,profile_picture FROM posts JOIN users ON (users.id = posts.user_id) LEFT JOIN relationships ON(posts.user_id = relationships.followed_user_id ) WHERE relationships.follower_user_id =? OR posts.user_id= ? ORDER BY posts.created_at DESC";
 
-  const values = user_id ? [user_id] : [user, user];
+  const values = user_id ? [user_id] : [id, id];
   db.query(q, values, (err, data) => {
     if (err) return res.status(500).json(err);
 
@@ -56,30 +52,27 @@ const getPost = (req, res) => {
 };
 
 const getSinglePost = (req, res) => {
-  const user = req.user;
+  const { id } = req.user;
 
-  if (!user) {
-    return res.status(401).send("you are not logged in");
-  }
+  if (!id) return res.sendStatus(401);
 
-  console.log(req.params);
   const q =
     "Select posts.*, users.id as user_id ,username,sex, profile_picture from posts JOIN users ON(users.id =posts.user_id)  where posts.id = ?";
   db.query(q, req.params.userId, (err, data) => {
-    if (err) return console.log(err);
+    if (err) return res.status(500).json(err);
 
     res.status(200).json(data);
   });
 };
 
 const deletePost = (req, res) => {
-  const user = req.user;
+  const { id } = req.user;
 
-  if (!user) return res.sendStatus(401);
+  if (!id) return res.sendStatus(401);
 
   const q1 = "SELECT * FROM posts WHERE id = ? and user_id = ?";
-  db.query(q1, [req.params.id, user /* data.id */], async (err, info) => {
-    if (err) return res.status(500).send(err);
+  db.query(q1, [req.params.id, id], async (err, info) => {
+    if (err) return res.status(500).json(err);
 
     try {
       if (
@@ -96,7 +89,7 @@ const deletePost = (req, res) => {
         )
       ) {
         if (info[0]?.image) {
-          await fs.unlink(
+          fsSync.unlink(
             path.join(
               __dirname,
               "..",
@@ -112,13 +105,13 @@ const deletePost = (req, res) => {
 
       const q = "DELETE FROM posts WHERE id = ? and user_id = ?";
 
-      db.query(q, [req.params.id, user /* data.id */], (err) => {
+      db.query(q, [req.params.id, id], (err) => {
         if (err) return res.status(500).json(err);
 
         return res.sendStatus(200);
       });
     } catch (err) {
-      console.log(err);
+      res.json(err);
     }
   });
 };

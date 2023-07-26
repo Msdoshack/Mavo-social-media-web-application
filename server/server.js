@@ -8,15 +8,16 @@ const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
 const credentials = require("./middleware/credentials");
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header("Access-Control-Expose-Headers", true);
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Credentials", true);
+//   res.header("Access-Control-Expose-Headers", true);
+//   next();
+// });
+// app.use(cors({ origin: "http://localhost:3000" }));
 
-// app.use(credentials);
-app.use(cors({ origin: "http://localhost:3000" }));
-// app.use(cors(corsOptions));
+app.use(credentials);
+
+app.use(cors(corsOptions));
 
 const server = http.createServer(app);
 
@@ -119,8 +120,6 @@ io.on("connection", (socket) => {
       console.log("Receiver not connected");
     }
   });
-
-  console.log(socketUsers);
 
   // remove a user when they disconnect
   socket.on("disconnect", () => {

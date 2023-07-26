@@ -1,18 +1,18 @@
 import useAuth from "./useAuth";
-import { baseUrl } from "../config/axios";
+import { baseUrl, baseUrlPrivate } from "../config/axios";
 
 const useRefreshToken = () => {
-  const { setCurrentUser } = useAuth();
+  const { setCurrentUser, currentUser } = useAuth();
 
   const refresh = async () => {
-    const response = await baseUrl.get("/refreshtoken", {
+    const response = await baseUrlPrivate.get("/refreshtoken", {
       withCredentials: true,
     });
     setCurrentUser((prev) => {
-      return { ...prev, accessToken: response.accessToken };
+      return { ...response.data };
     });
 
-    return response.accessToken;
+    return response.data.accessToken;
   };
 
   return refresh;

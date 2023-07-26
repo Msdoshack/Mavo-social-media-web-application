@@ -31,7 +31,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await baseUrlPrivate.post(
-        "http://localhost:3700/api/auth/login",
+        "/auth/login",
         JSON.stringify({ user, password }),
         {
           headers: {

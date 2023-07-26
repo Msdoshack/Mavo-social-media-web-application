@@ -10,7 +10,7 @@ const verifyJwt = (req, res, next) => {
   jwt.verify(cookie.jwt, process.env.REFRESH_TOKEN, (err, decoded) => {
     if (err) return res.sendStatus(403);
 
-    req.user = decoded.id;
+    req.user = { id: decoded.id, username: decoded.username };
 
     next();
   });

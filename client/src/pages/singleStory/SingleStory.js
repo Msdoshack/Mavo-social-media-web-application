@@ -5,8 +5,7 @@ import { useLocation } from "react-router-dom";
 
 const SingleStory = () => {
   const user_id = parseInt(useLocation().pathname.split("/")[2]);
-
-  const { isLoading, data } = useQuery({
+  const { isLoading, data, error } = useQuery({
     queryKey: ["single story"],
     queryFn: () => getStory(user_id),
   });

@@ -3,15 +3,16 @@ const jwt = require("jsonwebtoken");
 
 const handleRefreshToken = (req, res) => {
   const cookies = req.cookies;
-  if (!cookies?.jwt) return res.sendStatus(401);
+
+  if (!cookies?.jwt) return res.sendStatus(403);
 
   const refreshToken = cookies.jwt;
   const q = "SELECT * FROM users WHERE refreshtoken = ? ";
 
   db.query(q, refreshToken, (err, data) => {
-    if (err) res.sendStatus(403);
+    if (err) res.sendStatus(500);
 
-    jwt.verify(refreshToken, "secret", (err, decoded) => {
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN, (err, decoded) => {
       if (err || data[0].id !== decoded.id) return res.sendStatus(403);
 
       const accessToken = jwt.sign(
@@ -22,7 +23,7 @@ const handleRefreshToken = (req, res) => {
         }
       );
 
-      res.json(accessToken);
+      res.json({ ...data[0], accessToken: accessToken });
     });
   });
 };

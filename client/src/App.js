@@ -1,7 +1,6 @@
 import "./App.css";
 import "./style.scss";
 
-/* PAGES AND COMPONENTS */
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import Navbar from "./components/navbar/Navbar";
@@ -14,8 +13,6 @@ import Chat from "./pages/chat/Chat";
 import Inbox from "./pages/inbox/Inbox";
 import SinglePost from "./pages/singlePost/SinglePost";
 import Relationship from "./components/relationship/Relationship";
-
-/* ///////////////////////////////////////////////////// */
 
 import React, { useContext } from "react";
 import { darkModeContext } from "./context/darkModeContext";
@@ -46,14 +43,13 @@ function App() {
     {
       path: "/",
       element: (
-        // <QueryClientProvider client={queryClient}>
-        <PersistLogin children={Layout}>
-          <ProtectedRoute>
-            <Layout />
-          </ProtectedRoute>
-        </PersistLogin>
-
-        // </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <PersistLogin>
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          </PersistLogin>
+        </QueryClientProvider>
       ),
       children: [
         {

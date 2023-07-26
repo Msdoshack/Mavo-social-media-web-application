@@ -50,22 +50,34 @@ function Profile() {
 
   const user_id = parseInt(useLocation().pathname.split("/")[2]);
 
-  const { isLoading: myFollowersLoading, data: myFollowers } = useQuery({
+  const {
+    isLoading: myFollowersLoading,
+    data: myFollowers,
+    error: myFollowersError,
+  } = useQuery({
     queryKey: ["followers"],
     queryFn: () => getMyFollowers(user_id),
   });
 
-  const { isLoading: iamFollowingLoading, data: iamFollowing } = useQuery({
+  const {
+    isLoading: iamFollowingLoading,
+    data: iamFollowing,
+    error: iamFollowingError,
+  } = useQuery({
     queryKey: ["following"],
     queryFn: () => getIamFollowing(user_id),
   });
 
-  const { isLoading, data } = useQuery({
+  const {
+    isLoading,
+    data,
+    error: userError,
+  } = useQuery({
     queryKey: ["user", user_id],
     queryFn: () => getSingleUser(user_id),
   });
 
-  const { data: userConversations } = useQuery({
+  const { data: userConversations, error: userConversationError } = useQuery({
     queryKey: ["userConversation"],
     queryFn: getUserConversation,
   });
@@ -98,7 +110,11 @@ function Profile() {
     }
   };
 
-  const { isLoading: risLoading, data: relationshipData } = useQuery({
+  const {
+    isLoading: risLoading,
+    data: relationshipData,
+    error: relationshipDataErr,
+  } = useQuery({
     queryKey: ["relationship"],
     queryFn: () => getRelationship(user_id),
   });

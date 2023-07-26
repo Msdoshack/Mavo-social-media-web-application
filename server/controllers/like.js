@@ -8,38 +8,31 @@ const getLikes = (req, res) => {
     return res.status(200).json(data.map((like) => like.user_id));
   });
 };
+
 const addLike = (req, res) => {
-  const user = req.user;
+  const { id } = req.user;
 
-  if (!user) {
-    res.status(403).send("you are not logged in");
-  }
+  if (!id) return res.sendStatus(401);
 
-  const q = " INSERT INTO likes(user_id,post_id) VALUES (?) ";
+  const q = "INSERT INTO likes(user_id,post_id) VALUES (?) ";
 
-  const values = [user, req.body.post_id];
+  const values = [id, req.body.post_id];
 
-  db.query(q, [values], (err, data) => {
+  db.query(q, [values], (err) => {
     if (err) return res.status(500).json(err);
     return res.sendStatus(200);
   });
 };
 
 const delLike = (req, res) => {
-  const user = req.user;
+  const { id } = req.user;
 
-  if (!user) {
-    return res.status(403).json("you are not logged in");
-  }
-
-  if (err) return res.status(500).json(err);
+  if (!id) return res.sendStatus(401);
 
   const q = "DELETE FROM likes WHERE user_id = ? AND post_id = ? ";
 
-  db.query(q, [user, req.query.post_id], (err, data) => {
-    if (err) {
-      return res.status(500).json(err);
-    }
+  db.query(q, [id, req.query.post_id], (err) => {
+    if (err) return res.status(500).json(err);
 
     return res.sendStatus(200);
   });

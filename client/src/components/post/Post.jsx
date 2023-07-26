@@ -5,14 +5,12 @@ import Posts from "../posts/Posts";
 import { getPosts } from "../../config/api";
 
 const Post = ({ user_id }) => {
-  const { isLoading, error, data } = useQuery({
+  const { isLoading, data } = useQuery({
     queryKey: ["posts"],
     queryFn: () => getPosts(user_id),
   });
 
-  return error ? (
-    "something went wrong"
-  ) : isLoading ? (
+  return isLoading ? (
     "loading..."
   ) : (
     <div className="posts">

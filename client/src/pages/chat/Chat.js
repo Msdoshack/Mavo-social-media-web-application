@@ -18,7 +18,7 @@ const Chat = () => {
 
   const chatId = parseInt(useLocation().pathname.split("/")[2]);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["chats"],
     queryFn: () => getChat(chatId),
   });

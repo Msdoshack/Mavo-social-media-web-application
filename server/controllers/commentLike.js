@@ -11,30 +11,30 @@ const getCommentsLikes = (req, res) => {
 };
 
 const addCommentLikes = (req, res) => {
-  const user = req.user;
+  const { id } = req.user;
 
-  if (!user) return res.sendStatus(401);
+  if (!id) return res.sendStatus(401);
 
   const q = "INSERT INTO commentlikes (user_id, comment_id ) VALUES(?) ";
 
-  const values = [user, req.body.comment_id];
+  const values = [id, req.body.comment_id];
 
   db.query(q, [values], (err, data) => {
-    if (err) return console.log(err);
+    if (err) return res.status(500).json(err);
 
     res.status(200).send(data);
   });
 };
 
 const delCommentLikes = (req, res) => {
-  const user = req.user;
+  const { id } = req.user;
 
-  if (!user) return res.sendStatus(401);
+  if (!id) return res.sendStatus(401);
 
   const q = "DELETE FROM commentlikes WHERE user_id = ? AND comment_id= ? ";
 
-  db.query(q, [user, req.query.comment_id], (err) => {
-    if (err) return res.status(500).send(err);
+  db.query(q, [id, req.query.comment_id], (err) => {
+    if (err) return res.status(500).json(err);
 
     res.sendStatus(200);
   });
